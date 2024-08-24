@@ -1,14 +1,11 @@
 Run Instructions : Install Ansible Using Python VirtualEnv
 Install Ansible
 
-
 1. Verify Python3 is installed.
-
 python3 --version
 apt install python3-pip
 
 2. If Missing Install python3
-
 sudo apt update
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:deadsnakes/ppa
@@ -19,30 +16,74 @@ python3 --version
 
 
 3. Install Dependencies
-
 sudo apt-get install python3-minimal python3-virtualenv python3-dev build-essential
 
 
-
 4. Set up virtualenv
-
 mkdir ansible
 cd ansible
 virtualenv myansible
 
 
 5. Activate Virtual Env
-
 source myansible/bin/activate
 
 
-
 6. Install Ansible
-
 pip3 install ansible
 
 
-
 7. Verify Ansible version
-
 ansible --version
+
+8. To come out of virtual env: Use command : deactivate
+
+9. Configure ansible: ./ansible.cfg in current directory:
+touch ./ansible.cfg   (./ menas in the current directory)
+Note: This is the preffered way as it is limited to our virtual environment, 
+its not outside the scope of virtual environment we created .
+vi ansible.cfg
+[defaults]
+inventory = hosts
+
+10. Whenever we are installing ansible using PIP we need to create the hosts file manually 
+at virtual env location.
+vi hosts
+[all] 
+
+11. To setup the communication between ansible controller and clients.
+exit out of virtual env, perform below on controller:
+ssh-keygen -t rsa   (to generate public and private key)
+cd .ssh
+
+Upload public key on aws:
+go to console> key pairs > import keypair > paste the public key created on controller
+This is the passwordless authentication and prferred industry standard way
+
+Create nodes on AWS (launch EC2 instances)
+- allow ssh rule 
+ssh ec2-user@<public_ip/DNS>
+- check for python must be installed on nodes(clients)
+which python3
+python3 --vrsion
+which python
+python --version
+
+- Provide clients IP/FQDN in inventory file of Ansible
+- Sample test to verify configuration:
+ansible all -m ping
+If command status is successful, means connection has established successfully.
+
+- Edit hosts file:
+vi hosts
+[all]
+ec2-user@<public_ip_node1>
+ec2-user@<public_ip_node2>
+
+ansible all -m ping
+
+Basic commands:
+ll | grep python
+rm -rf python*
+
+

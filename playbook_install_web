@@ -1,0 +1,15 @@
+- name: Installing webservers
+  hosts: all
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: Ensure apache is at the latest version
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Ensure apache is running
+      service:
+        name: httpd
+        state: started

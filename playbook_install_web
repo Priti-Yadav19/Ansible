@@ -13,3 +13,58 @@
       service:
         name: httpd
         state: started
+
+-----------------------------------------------------------------------
+Playbook.yml
+
+#!/home/ubuntu/ansible/myansible/bin/ansible-playbook
+- name: Installing webservers
+  hosts: all
+  remote_user: ec2-user
+  become: yes
+  become_user: root
+
+  tasks:
+    - name: Ensure apache is at the latest version
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Ensure apache is running
+      service:
+        name: httpd
+        state: started
+
+now make the playbook executable:
+chmod 0755 -R playbook<directoryname>
+
+-------------------------------------------------------------------------
+ansible.cfg
+
+[defaults]
+host_key_checking = False
+inventory = /home/ubuntu/ansible/aws_ec2.yml
+
+[inventory]
+enable_plugins = ansible.builtin.auto, ansible.builtin.host_list, ansible.builtin.script, ansible.builtin.toml, ansible.builtin.yaml, ansible.builtin.ini
+
+
+------------------------------------------------------------------
+
+aws-ec2.yml
+
+plugin: amazon.aws.aws_ec2
+
+-------------------------------------------------------------------
+
+/home/ubuntu/ansible/inventory/dev/
+dev_nodes
+
+[all]
+ec2-user@54.236.231.47
+ec2-user@54.237.82.57
+-----------------------------------------------------------------------
+
+
+
+

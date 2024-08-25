@@ -82,6 +82,28 @@ ec2-user@<public_ip_node2>
 
 ansible all -m ping
 
+------------------------------------------------------------
+
+practice work:
+ vi /tmp/get_version.facts
+ vi inventory/dev/dev_nodes
+ ansible all -m ping
+ source myansible/bin/activate
+ ansible all -m ping
+ clear
+ ansible all -m file -a "path=/etc/ansible/facts.d state=directory"
+ ansible all -m file -a "path=/etc/ansible/facts.d state=directory" -b
+ ll /tmp
+ ansible all -m file -a "src=/tmp/get_version.facts dest=/etc/ansible/facts.d" -b
+ ansible all -m copy -a "src=/tmp/get_version.facts dest=/etc/ansible/facts.d" -b
+ ansible all -m copy -a "src=/tmp/get_version.facts dest=/etc/ansible/facts.d" mode='0755' -b
+ ansible all -m copy -a "src=/tmp/get_version.facts dest=/etc/ansible/facts.d mode='0755'" -b
+ ansible all -m setup
+ ansible all -m setup -a "filter=ansible_local"
+ mv /tmp/get_version.facts /tmp/get_version.fact
+ ansible all -m copy -a "src=/tmp/get_version.fact dest=/etc/ansible/facts.d mode='0755'" -b
+
+
 Basic commands:
 ll | grep python
 rm -rf python*

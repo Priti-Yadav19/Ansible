@@ -12,3 +12,28 @@
     - name: Task for reading vars
       debug:
         msg: "{{ test }}"
+
+
+---------------------------------------------------
+
+Data collection:
+#!/home/ubuntu/ansible/myansible/bin/ansible-playbook
+- name: Overview of debug module
+  hosts: all
+  remote_user: ec2-user
+  become: 'yes'
+  become_user: root 
+
+  vars:
+    xyz: hello, demo variable
+
+  tasks:
+    - name: Task for reading vars
+      debug: 
+        var: xyz
+        
+
+  
+  --------------------------------------------------
+
+  
